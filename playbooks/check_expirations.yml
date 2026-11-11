@@ -38,14 +38,17 @@
     - item.type == "token"
 
 
-- name: Calculate token due date
+- name: Test datetime conversion
   debug:
-    msg: >
-      {{
-        (
-          item.last_rotated | to_datetime('%Y-%m-%d')
-        )
-      }}
+    msg: |
+      ==================================
+      {{ item.name }}
+
+      Raw Date:
+      {{ item.last_rotated }}
+
+      Datetime:
+      {{ item.last_rotated | to_datetime('%Y-%m-%d') }}
   loop: "{{ credentials }}"
   when:
     - item.type == "token"
