@@ -5,9 +5,103 @@
 
   vars_files:
     - ../inventory/credentials.yml
+    - ../vars/thresholds.yml
 
   tasks:
 
-    - name: TEST TASK
+    - name: Display current date
       debug:
-        msg: "AAP IS READING THE NEW FILE"
+        msg: "Today is {{ ansible_date_time.date }}"
+
+    ###########################################################################
+    # TOKENS
+    ###########################################################################
+
+    - name: Process tokens
+      debug:
+        msg: |
+          ==================================================
+          RESOURCE: {{ item.name }}
+
+          TYPE: {{ item.type }}
+
+          OWNER: {{ item.owner }}
+
+          OWNER EMAIL: {{ item.owner_email }}
+
+          LOCATION: {{ item.location }}
+
+          LAST ROTATED: {{ item.last_rotated }}
+
+          ROTATION INTERVAL: {{ item.rotation_days }} days
+
+          STATUS: TO_BE_CALCULATED
+      loop: "{{ credentials }}"
+      when:
+        - item.type == "token"
+
+    ###########################################################################
+    # CERTIFICATES
+    ###########################################################################
+
+    - name: Process certificates
+      debug:
+        msg: |
+          ==================================================
+          RESOURCE: {{ item.name }}
+
+          TYPE: {{ item.type }}
+
+          OWNER: {{ item.owner }}
+
+          OWNER EMAIL: {{ item.owner_email }}
+
+          LOCATION: {{ item.location }}
+
+          EXPIRATION DATE: {{ item.expiration_date }}
+
+          STATUS: TO_BE_CALCULATED
+      loop: "{{ credentials }}"
+      when:
+        - item.type == "certificate"
+        - item.expiration_date is defined
+        - item.expiration_date != none
+
+    ###########################################################################
+    # SECRETS WITHOUT DATES
+    ###########################################################################
+
+    - name: Process secrets with unknown lifecycle
+      debug:
+        msg: |
+          ==================================================
+          RESOURCE: {{ item.name }}
+
+          TYPE: {{ item.type }}
+
+          OWNER: {{ item.owner }}
+
+          OWNER EMAIL: {{ item.owner_email }}
+
+          LOCATION: {{ item.location }}
+
+          STATUS: NEEDS_ROTATION_POLICY
+      loop: "{{ credentials }}"
+      when:
+        - item.type == "secret"
+
+    ###########################################################################
+    # FUTURE REPORTING
+    ###########################################################################
+
+    - name: Report generation placeholder
+      debug:
+        msg: "HTML report generation will go here"
+
+    - name: Email notification placeholder
+      debug:
+        msg: "Email notification will go here"
+
+    - name: Teams notification placeholder
+      debug:
+        msg: "Teams notification will go here"
