@@ -2,7 +2,9 @@
 <html>
 <head>
     <title>Credential Lifecycle Report</title>
+
     <style>
+
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
@@ -17,8 +19,9 @@
             width: 100%;
         }
 
-        th, td {
-            border: 1px solid #ccc;
+        th,
+        td {
+            border: 1px solid #cccccc;
             padding: 8px;
             text-align: left;
         }
@@ -42,8 +45,10 @@
         .unknown {
             background-color: #e2e3e5;
         }
+
     </style>
 </head>
+
 <body>
 
 <h1>Credential Lifecycle Report</h1>
@@ -53,38 +58,43 @@ Generated: {{ ansible_date_time.date }}
 </p>
 
 <table>
-    <tr>
-        <th>Resource</th>
-        <th>Type</th>
-        <th>Owner</th>
-        <th>Status</th>
-    </tr>
+
+<tr>
+    <th>Resource</th>
+    <th>Type</th>
+    <th>Owner</th>
+    <th>Status</th>
+</tr>
 
 {% for item in credentials %}
 
-    <tr>
+<tr>
 
-        <td>{{ item.name }}</td>
+    <td>{{ item.name }}</td>
 
-        <td>{{ item.type }}</td>
+    <td>{{ item.type }}</td>
 
-        <td>{{ item.owner }}</td>
+    <td>{{ item.owner }}</td>
 
-        {% if item.type == 'token' %}
+    {% if item.type == 'token' %}
+
         <td class="overdue">OVERDUE</td>
 
-        {% elif item.name == 'Test Expiring Certificate' %}
+    {% elif item.name == 'Test Expiring Certificate' %}
+
         <td class="warning">WARNING</td>
 
-        {% elif item.type == 'certificate' %}
+    {% elif item.type == 'certificate' %}
+
         <td class="ontrack">ON TRACK</td>
 
-        {% else %}
+    {% else %}
+
         <td class="unknown">NEEDS ROTATION POLICY</td>
 
-        {% endif %}
+    {% endif %}
 
-    </tr>
+</tr>
 
 {% endfor %}
 

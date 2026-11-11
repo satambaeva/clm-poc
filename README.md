@@ -1,23 +1,44 @@
 # Credential Lifecycle Monitor
 
-AAP-based automation for tracking:
+AAP-based monitoring solution for:
 
 - API tokens
-- Passwords
-- Secrets
 - TLS certificates
 - GitHub application keys
+- Secrets
+- Conjur-managed credentials
 
-## Phase 1
+## Current MVP
 
-- Static inventory
-- Expiration calculations
+- GitHub repository integration
+- AAP project synchronization
+- Structured inventory
+- HTML report generation
+
+## Planned Features
+
+### Phase 1
+
+- Credential inventory
+- Status reporting
+- HTML reporting
+
+### Phase 2
+
+- Days remaining calculations
+- Token rotation calculations
 - Email notifications
-
-## Future Enhancements
-
-- Conjur integration
-- Certificate validation
-- GitHub secret discovery
 - Teams notifications
-- Automated rotation workflows
+
+### Phase 3
+
+- AAP API integration
+- Conjur integration
+- Certificate inspection
+- Automatic discovery
+
+### Phase 4
+
+- Automated rotation
+- Dashboard reporting
+- ServiceNow integration

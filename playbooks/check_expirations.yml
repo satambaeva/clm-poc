@@ -9,6 +9,10 @@
 
   tasks:
 
+    - name: Display current date
+      debug:
+        msg: "Today is {{ ansible_date_time.date }}"
+
     - name: Generate HTML report
       template:
         src: ../templates/report.html.j2
@@ -22,3 +26,11 @@
     - name: Display report
       debug:
         var: report_output.stdout
+
+    - name: Email notification placeholder
+      debug:
+        msg: "EMAIL DELIVERY WILL BE ADDED HERE"
+
+    - name: Teams notification placeholder
+      debug:
+        msg: "TEAMS NOTIFICATION WILL BE ADDED HERE"
