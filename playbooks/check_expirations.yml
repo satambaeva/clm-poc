@@ -5,16 +5,26 @@
 
   vars_files:
     - ../inventory/credentials.yml
-    - ../vars/thresholds.yml
 
   tasks:
 
-    - name: Display credential status
+    - name: Show certificates
       debug:
         msg: |
-          Name: {{ item.name }}
-          Type: {{ item.type }}
-          Owner: {{ item.owner }}
-          Expiration: {{ item.expiration_date | default('N/A') }}
-          Last Rotated: {{ item.last_rotated | default('N/A') }}
+          {{ item.name }}
+          Expires: {{ item.expiration_date }}
       loop: "{{ credentials }}"
+      when:
+        - item.type == "certificate"
+        - item.expiration_date is defined
+        - item.expiration_date != None
+
+    - name: Show rotating credentials
+      debug:
+        msg: |
+          {{ item.name }}
+          Last Rotated: {{ item.last_rotated }}
+          Rotation Interval: {{ item.rotation_days }} days
+      loop: "{{ credentials }}"
+      when:
+        - item.type == "token"
