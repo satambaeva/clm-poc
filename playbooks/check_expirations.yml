@@ -105,3 +105,13 @@
     - name: Teams notification placeholder
       debug:
         msg: "Teams notification will go here"
+
+
+    - name: Generate HTML report
+      template:
+        src: ../templates/report.html.j2
+        dest: /tmp/credential_lifecycle_report.html
+
+    - name: Display report location
+      debug:
+        msg: "Report created at /tmp/credential_lifecycle_report.html"

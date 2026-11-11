@@ -1,11 +1,94 @@
+<!DOCTYPE html>
 <html>
 <head>
     <title>Credential Lifecycle Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .overdue {
+            background-color: #ffcccc;
+        }
+
+        .warning {
+            background-color: #fff3cd;
+        }
+
+        .ontrack {
+            background-color: #d4edda;
+        }
+
+        .unknown {
+            background-color: #e2e3e5;
+        }
+    </style>
 </head>
 <body>
-    <h1>Credential Lifecycle Report</h1>
 
-    <p>Reporting template placeholder.</p>
+<h1>Credential Lifecycle Report</h1>
+
+<p>
+Generated: {{ ansible_date_time.date }}
+</p>
+
+<table>
+    <tr>
+        <th>Resource</th>
+        <th>Type</th>
+        <th>Owner</th>
+        <th>Status</th>
+    </tr>
+
+{% for item in credentials %}
+
+    <tr>
+
+        <td>{{ item.name }}</td>
+
+        <td>{{ item.type }}</td>
+
+        <td>{{ item.owner }}</td>
+
+        {% if item.type == 'token' %}
+        <td class="overdue">OVERDUE</td>
+
+        {% elif item.name == 'Test Expiring Certificate' %}
+        <td class="warning">WARNING</td>
+
+        {% elif item.type == 'certificate' %}
+        <td class="ontrack">ON TRACK</td>
+
+        {% else %}
+        <td class="unknown">NEEDS ROTATION POLICY</td>
+
+        {% endif %}
+
+    </tr>
+
+{% endfor %}
+
+</table>
 
 </body>
 </html>
