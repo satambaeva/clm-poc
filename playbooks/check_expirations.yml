@@ -1,0 +1,18 @@
+---
+- name: Credential Expiration Check
+  hosts: localhost
+  gather_facts: true
+
+  vars_files:
+    - ../inventory/credentials.yml
+    - ../vars/thresholds.yml
+
+  tasks:
+
+    - name: Display loaded credentials
+      debug:
+        var: credentials
+
+    - name: Display thresholds
+      debug:
+        var: warning_days
