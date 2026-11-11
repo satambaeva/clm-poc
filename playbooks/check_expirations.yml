@@ -25,22 +25,27 @@
         - item.expiration_date is defined
         - item.expiration_date != none
 
-    - name: Show token status
-      debug:
-        msg: |
-          ==================================
-          {{ item.name }}
-          Owner: {{ item.owner }}
-          Last Rotated: {{ item.last_rotated }}
-          Rotation Interval: {{ item.rotation_days }} days
+- name: Show token status
+  debug:
+    msg: |
+      ==================================
+      {{ item.name }}
+      Owner: {{ item.owner }}
+      Last Rotated: {{ item.last_rotated }}
+      Rotation Interval: {{ item.rotation_days }} days
+  loop: "{{ credentials }}"
+  when:
+    - item.type == "token"
 
-          Due Date:
-          {{
-            (
-              (item.last_rotated | to_datetime('%Y-%m-%d'))
-              + timedelta(days=item.rotation_days)
-            ).strftime('%Y-%m-%d')
-          }}
-      loop: "{{ credentials }}"
-      when:
-        - item.type == "token"
+
+- name: Calculate token due date
+  debug:
+    msg: >
+      {{
+        (
+          item.last_rotated | to_datetime('%Y-%m-%d')
+        )
+      }}
+  loop: "{{ credentials }}"
+  when:
+    - item.type == "token"
