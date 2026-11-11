@@ -8,21 +8,26 @@
 
   tasks:
 
-    - name: Show certificates
+    - name: Show certificate status
       debug:
         msg: |
+          ==================================
           {{ item.name }}
+          Owner: {{ item.owner }}
           Expires: {{ item.expiration_date }}
+        # we'll add days remaining next
       loop: "{{ credentials }}"
       when:
         - item.type == "certificate"
         - item.expiration_date is defined
         - item.expiration_date != None
 
-    - name: Show rotating credentials
+    - name: Show token status
       debug:
         msg: |
+          ==================================
           {{ item.name }}
+          Owner: {{ item.owner }}
           Last Rotated: {{ item.last_rotated }}
           Rotation Interval: {{ item.rotation_days }} days
       loop: "{{ credentials }}"
