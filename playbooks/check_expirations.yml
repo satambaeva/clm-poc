@@ -1,5 +1,13 @@
-tasks:
+---
+- name: Credential Expiration Check
+  hosts: localhost
+  gather_facts: true
 
-  - name: TEST TASK
-    debug:
-      msg: "IF YOU SEE THIS, THE PLAYBOOK UPDATED"
+  vars_files:
+    - ../inventory/credentials.yml
+
+  tasks:
+
+    - name: TEST TASK
+      debug:
+        msg: "AAP IS READING THE NEW FILE"
