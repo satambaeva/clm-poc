@@ -38,17 +38,27 @@
     - item.type == "token"
 
 
-- name: Test datetime conversion
+- name: Calculate token age
   debug:
     msg: |
       ==================================
       {{ item.name }}
+      Owner: {{ item.owner }}
 
-      Raw Date:
-      {{ item.last_rotated }}
+      Last Rotated: {{ item.last_rotated }}
+      Rotation Interval: {{ item.rotation_days }} days
 
-      Datetime:
-      {{ item.last_rotated | to_datetime('%Y-%m-%d') }}
+      Rotation Age:
+      {{
+        (
+          (
+            ansible_date_time.date | to_datetime('%Y-%m-%d')
+          ) -
+          (
+            item.last_rotated | to_datetime('%Y-%m-%d')
+          )
+        ).days
+      }} days
   loop: "{{ credentials }}"
   when:
     - item.type == "token"
