@@ -33,6 +33,14 @@
           Owner: {{ item.owner }}
           Last Rotated: {{ item.last_rotated }}
           Rotation Interval: {{ item.rotation_days }} days
+
+          Due Date:
+          {{
+            (
+              (item.last_rotated | to_datetime('%Y-%m-%d'))
+              + timedelta(days=item.rotation_days)
+            ).strftime('%Y-%m-%d')
+          }}
       loop: "{{ credentials }}"
       when:
         - item.type == "token"
