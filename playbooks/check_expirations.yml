@@ -9,10 +9,12 @@
 
   tasks:
 
-    - name: Display loaded credentials
+    - name: Display credential status
       debug:
-        var: credentials
-
-    - name: Display thresholds
-      debug:
-        var: warning_days
+        msg: |
+          Name: {{ item.name }}
+          Type: {{ item.type }}
+          Owner: {{ item.owner }}
+          Expiration: {{ item.expiration_date | default('N/A') }}
+          Last Rotated: {{ item.last_rotated | default('N/A') }}
+      loop: "{{ credentials }}"
